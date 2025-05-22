@@ -1,21 +1,17 @@
 import os
 os .system("cls")
 
-print("3)Desenvolva um programa que cadastra alunos.")
-
-#lista = [cód; desc; preço]
-#ranger para buscar a seqência de id criado conforme o cadastro criado
-#cód inicia em 100 e adicionar um mising
-#
-
 #Variáveis
 
 confirm = "s"
 confirmar = "s"
+produtos = {}
+produto_id = 100
 
 #Funções
 
-def menu(): #Menu, ele será a primeira coisa a ser chamada, retorna um input
+#Menu Inicial
+def menu():
     print("1) Administrador")
     print("2) Operador")
     print("3) Sair")
@@ -25,30 +21,49 @@ def menu(): #Menu, ele será a primeira coisa a ser chamada, retorna um input
 
     return option
 
-
+#Menu do ADM
 def menuADM():
-    print("1) Administrador")
-    print("2) Operador")
-    print("3) Sair")
+    print("\n1) Cadastrar")
+    print("2) Listar")
+    print("3) Editar")
     print("4) Excluir")
     print("5) Voltar")
-    optionadm = str(input("Digite qual opção deseja (escreva um número de 1 a 5).")).strip()
-    while optionadm == "" and optionadm != "1" and optionadm != "2" and optionadm != "3" and optionadm != "4" and optionadm != "5":
-        optionadm = str(input("Por favor, digite um número correto (de 1 a 5): "))
-
+    optionadm = str(input("Escolha uma opção de 1 a 5: ")).strip()
+    while optionadm not in ["1", "2", "3", "4", "5"]:
+        optionadm = str(input("Digite uma opção correta!")).strip()
     return optionadm
 
-def cadastro(): #Abre arquivo, pega nome, coloca no arquivo, repita.
-    arquivo = open("exe3/cadastro.txt", "a")
-    nome = str(input("Digite o nome do aluno a ser cadastrado: "))
-    arquivo.write(str("nome:" + nome + " "))
-    email = str(input("Digite o e-mail do aluno a ser cadastrado: "))
-    arquivo.write(str("e-mail:" + email + " "))
-    curso = str(input("Digite o curso do aluno: "))
-    arquivo.write(str("curso:" + curso + " ") + "\n")
-    arquivo.close()
-    print("\nArquivo gerado com sucesso!")
+#Menu do Operador
+def munuOperador():
+    print("\n1) Adicionar produto á conta")
+    print("2) Listar meus produtos")
+    print("3) Voltar")
+    optionop = str(input("Escolha uma opção de 1 a 3: ")).strip()
+    while optionop not in ["1", "2", "3"]:
+        optionop = str(input("Digite uma opção correta!")).strip()
+    return optionop
 
+#Cadastro de Produto
+def cadastroProduto():
+    global produto_id
+    desc = str(input("Digite a descrição do produto: ")).strip()
+    while not desc:
+        desc = str(input("Descrição Inválida!")).strip()
+
+    try:
+        preco = float(input("Digite o preço do produto: "))
+        while preco <= 0:
+            preco = float(input("Preço Inválido!"))
+    except ValueError:
+        print("Erro!")
+        return
+    
+    produtos[produto_id] = [desc, preco]
+    print(f"produto cadastrado com sucesso! Código: {produto_id}")
+    produto_id += 1
+    salvar_arquivo()
+
+#Listar Dados
 def listar(): #Essa foi complicada.
     arquivo = open("exe3/cadastro.txt", "r")
     listar = arquivo.readlines() #Irá ler linha por linha
@@ -63,12 +78,10 @@ def listar(): #Essa foi complicada.
             name = linha[start_fulano:end_fulano].strip() #O professor ensinou esse método em sala da aula, ele vai do ponto A até o B da lista, no caso, onde começa o nome e onde começa o email. Eu não sei se o professor ensinou o strip em sala de aula, mas eu vi isso naquele desafio da Erika junto com o Luigi :D
             print(name) #Vai retornar o nome do aluno
 
-
-
-def editar():
+#def editar():
     print("editar")
 
-def buscar():
+#def buscar():
     arquivo = open("exe3/cadastro.txt", "r")
     listar = arquivo.readlines() #Vai ler o arquivo todo
     arquivo.close()
@@ -86,7 +99,7 @@ def buscar():
     if not encontrado: #inverte o valor da condição, aqui seria verdadeiro, pois o aluno não foi encontrado, então inverti para que se o código for verdadeiro, ele passa direto, se for falso ele vai pra cá, estava colando isso no for, estava errado.
         print("Aluno não encontrado.")
 
-def remove():
+#def remove():
     arquivo = open("exe3/cadastro.txt", "r")
     listar = arquivo.readlines()
     delete = str(input("Digite o nome do aluno que você quer deletar: ")).strip()
@@ -115,6 +128,11 @@ def remove():
 
     arquivo.close()
 
+#def salvar_arquivo():
+#   while open("exe3/cadastroProdutos.txt", "w") as arquivo:
+#       for codigo, info in produtos.items():
+#           arquivo.write(f'código:{codigo} desc:{info[0]} preco:{info[1]}\n')
+
 #Main
 
 while confirm == "s":
@@ -122,11 +140,11 @@ while confirm == "s":
     escolha = menu() # mostrará o menu, e o resultado virará uma variável
 
     if escolha == "1": #dependendo da escolha o comando irá fazer algo
+        print("A opção desejada foi de ADM \n")
         escolhaADM = menuADM()
-        print("A opção desejada foi de Administrador \n")
         while confirmar == "s":
             if escolhaADM == "1":
-                #cadastro()
+                cadastroProduto()
                 print("funcionou")
                 confirmar = "n"
 
