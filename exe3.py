@@ -4,6 +4,7 @@ os.system("cls")
 print("Sistema de Cadastro de Produtos")
 
 # Variáveis globais
+
 confirm = "s"
 confirmar = "s"
 produto_id = 100  # Código inicial dos produtos
@@ -191,6 +192,7 @@ def carregar_arquivos():  # Carrega produtos dos arquivos ao iniciar
         pass
 
 # Main
+
 carregar_arquivos()  # Carrega dados dos arquivos ao iniciar
 
 while confirm == "s":
