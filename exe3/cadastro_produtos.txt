@@ -1,2 +1,4 @@
 codigo:100 desc:blabla preco:12.0
 codigo:101 desc:bleble preco:11.0
+codigo:102 desc:bomdia preco:41.0
+codigo:103 desc:aua preco:99.0
